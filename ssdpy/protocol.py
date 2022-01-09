@@ -18,14 +18,9 @@ def create_msearch_payload(host, st, mx=1):
 
     :return: A bytes object containing the generated M-SEARCH payload.
     """
-    data = (
-        "M-SEARCH * HTTP/1.1\r\n"
-        "HOST:{}\r\n"
-        'MAN: "ssdp:discover"\r\n'
-        "ST:{}\r\n"
-        "MX:{}\r\n"
-        "\r\n"
-    ).format(host, st, mx)
+    data = ("M-SEARCH * HTTP/1.1\r\n" "HOST:{}\r\n" 'MAN: "ssdp:discover"\r\n' "ST:{}\r\n" "MX:{}\r\n" "\r\n").format(
+        host, st, mx
+    )
     return data.encode("utf-8")
 
 
@@ -71,17 +66,18 @@ def create_notify_payload(host, nt, usn, location=None, al=None, max_age=None, e
         raise ValueError("max_age must by of type: int")
     data = (
         "HTTP/1.1 200 OK\r\n"
-        "HOST:{}\r\n"
-        "NT:{}\r\n"
-        "NTS:ssdp:alive\r\n"
-        "USN:{}\r\n"
+        "HOST: {}\r\n"
+        "ST: upnp:rootdevice\r\n"
+        "EXT:\r\n"
+        "SERVER: Yamaha UPnP/1.1 MiniUPnPd/1.8\r\n"
+        "USN: {}\r\n"
     ).format(host, nt, usn)
     if location is not None:
-        data += "LOCATION:{}\r\n".format(location)
+        data += "LOCATION: {}\r\n".format(location)
     if al is not None:
-        data += "AL:{}\r\n".format(al)
+        data += "AL: {}\r\n".format(al)
     if max_age is not None:
-        data += "Cache-Control:max-age={}\r\n".format(max_age)
+        data += "Cache-Control: max-age={}\r\n".format(max_age)
     if extra_fields is not None:
         for field, value in extra_fields.items():
             data += "{}:{}\r\n".format(field, value)
