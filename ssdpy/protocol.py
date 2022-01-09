@@ -70,7 +70,7 @@ def create_notify_payload(host, nt, usn, location=None, al=None, max_age=None, e
     if max_age is not None and not isinstance(max_age, int):
         raise ValueError("max_age must by of type: int")
     data = (
-        "NOTIFY * HTTP/1.1\r\n"
+        "HTTP/1.1 200 OK\r\n"
         "HOST:{}\r\n"
         "NT:{}\r\n"
         "NTS:ssdp:alive\r\n"
